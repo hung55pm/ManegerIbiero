@@ -31,6 +31,7 @@ function isValidToken(req, res, next) {
         }
     });
 }
+
 // api acount
 router.post('/login',Acount.login);
 router.post('/register', Acount.register);
