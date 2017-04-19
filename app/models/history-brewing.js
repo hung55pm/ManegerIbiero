@@ -25,10 +25,15 @@ var HistorySchema = mongoose.Schema({
     },
     sell_time:{
         type: Date,
+        default:null
     },
     create_date: {
         type: Date,
         default: Date.now
+    },
+    return_date:{
+        type: Date,
+        default:null
     },
     package_id: String,
     volume: {

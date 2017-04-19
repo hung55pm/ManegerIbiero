@@ -21,7 +21,8 @@ exports.AddHisrotyBrewing = function (req, res) {
             time_boil: time_boil,
             status: req.body.status,
             create_date: req.body.create_date,
-            sell_time: null
+            sell_time: null,
+            return_date: null
 
         });
         newHistoryBeer.save(function (err) {
@@ -54,6 +55,9 @@ exports.updateStatusHistoryBrewing = function (req, res) {
                     acc.sell_time = req.body.sell_time;
                     if (req.body.volume) {
                         acc.volume = req.body.volume;
+                    }
+                    if(req.body.return_date){
+                        acc.return_date= req.body.return_date;
                     }
                     done(null, acc);
                 },
@@ -163,17 +167,6 @@ exports.getAllBeerbyId = function (req, res) {
 
             } else {
                 for (var i = 0; i < historybeer.length; i++) {
-                    if (historybeer[i].sell_time == null || historybeer[i].sell_time == 'undefined') {
-                        historyList.push({
-                            id: historybeer[i]._id,
-                            idbeer: historybeer[i].idbeer,
-                            time_boil: historybeer[i].time_boil,
-                            create_date: historybeer[i].create_date,
-                            sell_time: null,
-                            status: historybeer[i].status,
-                            volume: historybeer[i].volume
-                        });
-                    } else {
                         historyList.push({
                             id: historybeer[i]._id,
                             idbeer: historybeer[i].idbeer,
@@ -181,9 +174,9 @@ exports.getAllBeerbyId = function (req, res) {
                             create_date: historybeer[i].create_date,
                             sell_time: historybeer[i].sell_time,
                             status: historybeer[i].status,
-                            volume: historybeer[i].volume
+                            volume: historybeer[i].volume,
+                            return_date: historybeer[i].return_date
                         });
-                    }
                 }
 
                 console.log("list : " + JSON.stringify(historyList));
@@ -216,17 +209,6 @@ exports.getAllBeerbystatusstock = function (req, res) {
 
                 } else {
                     for (var i = 0; i < historybeer.length; i++) {
-                        if (historybeer[i].sell_time == null || historybeer[i].sell_time == 'undefined') {
-                            historyList.push({
-                                id: historybeer[i]._id,
-                                idbeer: historybeer[i].idbeer,
-                                time_boil: historybeer[i].time_boil,
-                                create_date: historybeer[i].create_date,
-                                sell_time: null,
-                                status: historybeer[i].status,
-                                volume: historybeer[i].volume
-                            });
-                        } else {
                             historyList.push({
                                 id: historybeer[i]._id,
                                 idbeer: historybeer[i].idbeer,
@@ -234,9 +216,9 @@ exports.getAllBeerbystatusstock = function (req, res) {
                                 create_date: historybeer[i].create_date,
                                 sell_time: historybeer[i].sell_time,
                                 status: historybeer[i].status,
-                                volume: historybeer[i].volume
+                                volume: historybeer[i].volume,
+                                return_date: historybeer[i].return_date
                             });
-                        }
                     }
 
                     console.log("list : " + JSON.stringify(historyList));
@@ -264,7 +246,8 @@ exports.getAllBeerbystatusstock = function (req, res) {
                             create_date: historybeer[i].create_date,
                             sell_time: historybeer[i].sell_time,
                             status: historybeer[i].status,
-                            volume: historybeer[i].volume
+                            volume: historybeer[i].volume,
+                            return_date: historybeer[i].return_date
                         });
                     }
 
@@ -337,7 +320,8 @@ exports.getallfind = function (req, res) {
                     create_date: historybeer[i].create_date,
                     sell_time: historybeer[i].sell_time,
                     status: historybeer[i].status,
-                    volume: historybeer[i].volume
+                    volume: historybeer[i].volume,
+                    return_date: historybeer[i].return_date
                 });
             }
 
