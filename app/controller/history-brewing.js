@@ -269,12 +269,23 @@ exports.getallfind = function (req, res) {
     if (req.body.idbeer != undefined) {
         tmp1.push({idbeer: req.body.idbeer});
     }
-    if (req.body.status != undefined && req.body.status != 999) {
+    if (req.body.status != undefined && req.body.status != 999 && req.body.status !=1000) {
         tmp1.push({status: req.body.status});
     }
     if (req.body.status == 999) {
         tmp2.push({status: 0});
         tmp2.push({status: 20});
+        tmp1.push({$or: tmp2});
+    }
+    if(req.body.status == 1000){
+        tmp2.push({status: 10});
+        tmp2.push({status: 30});
+        tmp2.push({status: 40});
+        tmp2.push({status: 101});
+        tmp2.push({status: 102});
+        tmp2.push({status: 103});
+        tmp2.push({status: 104});
+        tmp2.push({status: 105});
         tmp1.push({$or: tmp2});
     }
     if (req.body.start == undefined && req.body.end == undefined && req.body.start_sold == undefined && req.body.end_sold == undefined) {
