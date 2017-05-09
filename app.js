@@ -28,7 +28,7 @@ agenda.define('check beer', function (job, done) {
 
 
 agenda.on('ready', function () {
-    agenda.every('0 * * * *', 'check beer');
+    agenda.every('11 * * * *', 'check beer');
     agenda.start();
 });
 var routes = require('./routes/index');

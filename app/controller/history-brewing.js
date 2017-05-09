@@ -20,7 +20,6 @@ exports.AddHisrotyBrewing = function (req, res) {
             idbeer: req.body.idbeer,
             time_boil: time_boil,
             status: req.body.status,
-            create_date: req.body.create_date,
             sell_time: null,
             return_date: null
 

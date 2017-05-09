@@ -5,7 +5,7 @@
 var Odoo = require('odoo');
 exports.gethostodoo=function () {
     var odoo = new Odoo({
-        host: '10.20.9.34',
+        host: '10.20.1.194',
         port: 8069,
         database: 'vinnet',
         username: 'test',
