@@ -64,6 +64,6 @@ router.get('/sync-contact',isValidToken,SyncContact.getcontact);
 
 //api order beer
 
-//router.post('/order-beer',OrderBeer.AddOrderBeer);
+router.post('/order-beer',OrderBeer.AddOrderBeer);
 
 module.exports = router;
