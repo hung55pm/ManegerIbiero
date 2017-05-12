@@ -4,6 +4,7 @@ var beer = require('../app/controller/beers');
 var historybrewing = require('../app/controller/history-brewing');
 var restaurent=require('../app/controller/restaurent');
 var Acount= require('../app/controller/account');
+var OrderBeer= require('../app/controller/order_beer');
 var mAccount = require('../app/models/account');
 var Report= require('../app/controller/report');
 var SyncContact=require('../app/controller/syncContact');
@@ -60,5 +61,9 @@ router.post('/report', isValidToken,Report.getreportkiddy);
 //api synccontact
 router.get('/sync-contact',isValidToken,SyncContact.getcontact);
 
+
+//api order beer
+
+//router.post('/order-beer',OrderBeer.AddOrderBeer);
 
 module.exports = router;

@@ -58,6 +58,9 @@ exports.updateStatusHistoryBrewing = function (req, res) {
                     if(req.body.return_date){
                         acc.return_date= req.body.return_date;
                     }
+                    if(req.body.volume_return){
+                        acc.volume_return=req.body.volume_return;
+                    }
                     done(null, acc);
                 },
                 function (acc, done) {
@@ -174,7 +177,8 @@ exports.getAllBeerbyId = function (req, res) {
                             sell_time: historybeer[i].sell_time,
                             status: historybeer[i].status,
                             volume: historybeer[i].volume,
-                            return_date: historybeer[i].return_date
+                            return_date: historybeer[i].return_date,
+                            volume_return:historybeer[i].volume_return
                         });
                 }
 
@@ -216,7 +220,8 @@ exports.getAllBeerbystatusstock = function (req, res) {
                                 sell_time: historybeer[i].sell_time,
                                 status: historybeer[i].status,
                                 volume: historybeer[i].volume,
-                                return_date: historybeer[i].return_date
+                                return_date: historybeer[i].return_date,
+                                volume_return:historybeer[i].volume_return
                             });
                     }
 
@@ -246,7 +251,8 @@ exports.getAllBeerbystatusstock = function (req, res) {
                             sell_time: historybeer[i].sell_time,
                             status: historybeer[i].status,
                             volume: historybeer[i].volume,
-                            return_date: historybeer[i].return_date
+                            return_date: historybeer[i].return_date,
+                            volume_return:historybeer[i].volume_return
                         });
                     }
 
@@ -331,7 +337,8 @@ exports.getallfind = function (req, res) {
                     sell_time: historybeer[i].sell_time,
                     status: historybeer[i].status,
                     volume: historybeer[i].volume,
-                    return_date: historybeer[i].return_date
+                    return_date: historybeer[i].return_date,
+                    volume_return:historybeer[i].volume_return
                 });
             }
 

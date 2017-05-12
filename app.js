@@ -13,6 +13,7 @@ var init = require('./app/helpper/initlazied');
 var oddoo=require('./app/controller/connectCmsOdoo');
 mongoose.Promise = global.Promise;
 mongoose.createConnection(dbConfig.url);
+
 //aaaa
 init();
 agenda.define('check beer', function (job, done) {

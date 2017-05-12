@@ -39,6 +39,11 @@ var HistorySchema = mongoose.Schema({
     volume: {
         type: Number,
         default: 0
+    },
+    volume_return: {
+        type: Number,
+        default: 0
     }
+
 });
 module.exports = mongoose.model('history-brewing', HistorySchema);
