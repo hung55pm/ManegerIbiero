@@ -42,8 +42,8 @@ exports.AddOrderBeer = function (req, res) {
                 }
             });
         }, function (done) {
-            emailHelper.sendEmail("doanngochung55pmxd@gmail.com", "Đơn đặt hàng iBiero", "bạn dã dăt hàng ibiero thành công với các thông so nhu sau", done);
-            emailHelper.sendEmail(newOrder.clinet_email, "Đặt hàng iBiero", "bạn dã dăt hàng ibiero thành công với các thông so nhu sau", done);
+            emailHelper.sendEmail("doanngochung55pmxd@gmail.com", "Đơn đặt hàng iBiero", "Có khách đặt hang ibiero", done);
+            emailHelper.sendEmail(newOrder.clinet_email, "Đặt hàng iBiero", "bạn dã dăt hàng ibiero thành công", done);
             done(null)
         }], function (err) {
             if (err) {
