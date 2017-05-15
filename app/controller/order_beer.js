@@ -80,11 +80,13 @@ exports.AddOrderBeer = function (req, res) {
                     }
                 }
 
-                emailHelper.sendEmail("doanngochung55pmxd@gmail.com", "Đơn đặt hàng iBiero", "Có khách đặt hang ibiero", done);
+                emailHelper.sendEmail("doanngochung55pmxd@gmail.com", "Đơn đặt hàng iBiero", "Tên khách hàng: "+req.body.name+", Số điện thoại: "+req.body.mobile
+                    +", Email: "+req.body.email+", Các loại bia đã đặt:"+string_beer_order+". Ngày giao bia: "+req.body.date_client+". Địa điểm giao hàng: "+req.body.address_client+
+                    ", Dịch vụ hỗ trợ:"+oder_sup+", Yêu cầu khác:"+note, done);
                 emailHelper.sendEmail(newOrder.clinet_email, "Đơn đăt hàng của quý khách với iBiero", " Kinh chào :"+req.body.name+
-                    "Quý khách đã đặt hàng thành thành công với đơn hàng như sau: " +
-                    "Các loại bia đã đặt:"+string_beer_order+" ngày giao bia: "+req.body.date_client+", địa điểm giao hàng: "+req.body.address_client+
-                    "Dịch vụ hỗ trợ:"+oder_sup, done);
+                    ". Quý khách đã đặt hàng thành thành công với đơn hàng như sau: " +
+                    " Các loại bia đã đặt:"+string_beer_order+". Ngày giao bia: "+req.body.date_client+". Địa điểm giao hàng: "+req.body.address_client+
+                    ", Dịch vụ hỗ trợ:"+oder_sup, done);
             // }else {
             //
             // }
