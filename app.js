@@ -71,11 +71,6 @@ if (app.get('env') === 'development') {
     });
 }
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 
 // production error handler
 // no stacktraces leaked to user

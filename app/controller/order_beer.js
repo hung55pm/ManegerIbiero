@@ -9,7 +9,7 @@ var Stylebeer_order = require('../models/stylebeer_order');
 var emailHelper = require('../helpper/email');
 var resp = require('../helpper/respones');
 exports.AddOrderBeer = function (req, res) {
-
+    res.setHeader('Access-Control-Allow-Origin', '*');
     if (!req.body.name || !req.body.mobile || !req.body.email || !req.body.object_type || !req.body.number_client || !req.body.address_client || !req.body.date_client || !req.body.beer || !req.body.support) {
         resp.res_error(401, "one or more parameters is missing", true, res);
     } else {
