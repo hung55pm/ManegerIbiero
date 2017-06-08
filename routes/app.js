@@ -4,6 +4,8 @@ var beer = require('../app/controller/beers');
 var historybrewing = require('../app/controller/history-brewing');
 var restaurent=require('../app/controller/restaurent');
 var Acount= require('../app/controller/account');
+var Groups= require('../app/controller/groups');
+var Machine= require('../app/controller/machines');
 var OrderBeer= require('../app/controller/order_beer');
 var mAccount = require('../app/models/account');
 var Report= require('../app/controller/report');
@@ -44,8 +46,7 @@ router.get('/get-list-beer',isValidToken, beer.getAllBeer);
 
 // api restaurent
 
-router.get('/get-all-restaurent',isValidToken,restaurent.getAllRestaurent);
-router.post('/change-status',isValidToken,restaurent.changeIdRestaurent);
+router.post('/get-all-restaurent',isValidToken,restaurent.getAllRestaurent);
 
 // api histroy brewing
 router.post('/add-history-beer',isValidToken, historybrewing.AddHisrotyBrewing);
@@ -65,5 +66,18 @@ router.get('/sync-contact',isValidToken,SyncContact.getcontact);
 //api order beer
 
 router.post('/order-beer',OrderBeer.AddOrderBeer);
+
+
+//api group
+
+router.post('/addgroup',isValidToken,Groups.addgroup);
+// api machine
+
+router.post('/addmachine',isValidToken,Machine.addmachine)
+
+
+//api tool
+router.post('/change-status',isValidToken,restaurent.changeIdRestaurent);
+router.post('/update-group',isValidToken,historybrewing.updatelocal);
 
 module.exports = router;

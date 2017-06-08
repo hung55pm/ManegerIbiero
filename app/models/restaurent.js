@@ -19,6 +19,10 @@ var restaurent = Schema({
     },
     address_res : String,
     phone_res:String,
-    maneger_res:String
+    maneger_res:String,
+    group_id: {
+        type: Number,
+        default: 0
+    }
 });
 module.exports = mongoose.model('restaurent', restaurent);

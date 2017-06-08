@@ -55,11 +55,11 @@ exports.updateStatusHistoryBrewing = function (req, res) {
                     if (req.body.volume) {
                         acc.volume = req.body.volume;
                     }
-                    if(req.body.return_date){
-                        acc.return_date= req.body.return_date;
+                    if (req.body.return_date) {
+                        acc.return_date = req.body.return_date;
                     }
-                    if(req.body.volume_return){
-                        acc.volume_return=req.body.volume_return;
+                    if (req.body.volume_return) {
+                        acc.volume_return = req.body.volume_return;
                     }
                     done(null, acc);
                 },
@@ -88,9 +88,22 @@ exports.getAllBeerByDate = function (req, res) {
     var end = new Date(req.body.end);
     var listbeertotal = [];
     var historyList = [];
+    var tmp1 = [];
+
     if (!req.body.start || !req.body.end) {
         respone.res_error(400, 'one or more parameters is missing', true, res);
     } else {
+        if (req.body.group_id || req.body.group_id == undefined) {
+            if (req.body.group_id == 0) {
+                tmp1.push({getall: null});
+
+            } else {
+                tmp1.push({group_id: req.body.group_id});
+            }
+
+        }
+        compar = {$gte: start, $lte: end};
+        tmp1.push({time_boil: compar});
         async.parallel([function (callback) {
                 Beer.find().exec(function (err, beer) {
                     if (err) {
@@ -110,13 +123,14 @@ exports.getAllBeerByDate = function (req, res) {
 
 
             }, function (callback) {
-                console.log(start + "  " + end);
-                History.find({
-                    time_boil: {
-                        $gte: start,
-                        $lte: end
-                    }
-                }).exec(function (err, historybeer) {
+                console.log(start + "  " + end + "  " + JSON.stringify(tmp1));
+                //     {
+                //     time_boil: {
+                //         $gte: start,
+                //         $lte: end
+                //     }
+                // }
+                History.find({$and: tmp1}).exec(function (err, historybeer) {
                     if (err || !historybeer) {
                         historyList = [];
                         return callback(null);
@@ -153,33 +167,48 @@ exports.getAllBeerByDate = function (req, res) {
 exports.getAllBeerbyId = function (req, res) {
     var start = new Date(req.body.start);
     var end = new Date(req.body.end);
+    var tmp1 = [];
     var historyList = [];
     if (!req.body.id || !req.body.start || !req.body.end) {
         respone.res_error(400, 'one or more parameters is missing', true, res);
     } else {
-        History.find({
-            idbeer: req.body.id,
-            time_boil: {
-                $gte: start,
-                $lte: end
+        if (req.body.group_id || req.body.group_id == undefined) {
+            if (req.body.group_id == 0) {
+                tmp1.push({getall: null});
+
+            } else {
+                tmp1.push({group_id: req.body.group_id});
             }
-        }).sort({"time_boil": -1}).exec(function (err, historybeer) {
+
+        }
+        compar = {$gte: start, $lte: end};
+        tmp1.push({time_boil: compar});
+        tmp1.push({idbeer: req.body.id});
+        //     {
+        //     idbeer: req.body.id,
+        //     time_boil: {
+        //         $gte: start,
+        //         $lte: end
+        //     }
+        // }
+        History.find({$and: tmp1}).sort({"time_boil": -1}).exec(function (err, historybeer) {
             if (err) {
                 respone.res_error(400, 'system err', true, res);
 
             } else {
                 for (var i = 0; i < historybeer.length; i++) {
-                        historyList.push({
-                            id: historybeer[i]._id,
-                            idbeer: historybeer[i].idbeer,
-                            time_boil: historybeer[i].time_boil,
-                            create_date: historybeer[i].create_date,
-                            sell_time: historybeer[i].sell_time,
-                            status: historybeer[i].status,
-                            volume: historybeer[i].volume,
-                            return_date: historybeer[i].return_date,
-                            volume_return:historybeer[i].volume_return
-                        });
+                    historyList.push({
+                        id: historybeer[i]._id,
+                        idbeer: historybeer[i].idbeer,
+                        time_boil: historybeer[i].time_boil,
+                        create_date: historybeer[i].create_date,
+                        sell_time: historybeer[i].sell_time,
+                        status: historybeer[i].status,
+                        volume: historybeer[i].volume,
+                        return_date: historybeer[i].return_date,
+                        volume_return: historybeer[i].volume_return,
+                        group_id: historybeer[i].group_id
+                    });
                 }
 
                 console.log("list : " + JSON.stringify(historyList));
@@ -212,17 +241,18 @@ exports.getAllBeerbystatusstock = function (req, res) {
 
                 } else {
                     for (var i = 0; i < historybeer.length; i++) {
-                            historyList.push({
-                                id: historybeer[i]._id,
-                                idbeer: historybeer[i].idbeer,
-                                time_boil: historybeer[i].time_boil,
-                                create_date: historybeer[i].create_date,
-                                sell_time: historybeer[i].sell_time,
-                                status: historybeer[i].status,
-                                volume: historybeer[i].volume,
-                                return_date: historybeer[i].return_date,
-                                volume_return:historybeer[i].volume_return
-                            });
+                        historyList.push({
+                            id: historybeer[i]._id,
+                            idbeer: historybeer[i].idbeer,
+                            time_boil: historybeer[i].time_boil,
+                            create_date: historybeer[i].create_date,
+                            sell_time: historybeer[i].sell_time,
+                            status: historybeer[i].status,
+                            volume: historybeer[i].volume,
+                            return_date: historybeer[i].return_date,
+                            volume_return: historybeer[i].volume_return,
+                            group_id: historybeer[i].group_id
+                        });
                     }
 
                     console.log("list : " + JSON.stringify(historyList));
@@ -252,7 +282,8 @@ exports.getAllBeerbystatusstock = function (req, res) {
                             status: historybeer[i].status,
                             volume: historybeer[i].volume,
                             return_date: historybeer[i].return_date,
-                            volume_return:historybeer[i].volume_return
+                            volume_return: historybeer[i].volume_return,
+                            group_id: historybeer[i].group_id
                         });
                     }
 
@@ -271,10 +302,21 @@ exports.getallfind = function (req, res) {
     var historyList = [];
     var tmp1 = [];
     var tmp2 = [];
+    var tmp3 = [];
+    if (req.body.group_id || req.body.group_id == undefined) {
+        if (req.body.group_id == 0) {
+            tmp3.push({group_id: 1});
+            tmp3.push({group_id: 2});
+            tmp1.push({$or: tmp3});
+        } else {
+            tmp1.push({group_id: req.body.group_id});
+        }
+
+    }
     if (req.body.idbeer != undefined) {
         tmp1.push({idbeer: req.body.idbeer});
     }
-    if (req.body.status != undefined && req.body.status != 999 && req.body.status !=1000) {
+    if (req.body.status != undefined && req.body.status != 999 && req.body.status != 1000) {
         tmp1.push({status: req.body.status});
     }
     if (req.body.status == 999) {
@@ -282,7 +324,7 @@ exports.getallfind = function (req, res) {
         tmp2.push({status: 20});
         tmp1.push({$or: tmp2});
     }
-    if(req.body.status == 1000){
+    if (req.body.status == 1000) {
         tmp2.push({status: 10});
         tmp2.push({status: 30});
         tmp2.push({status: 40});
@@ -291,6 +333,8 @@ exports.getallfind = function (req, res) {
         tmp2.push({status: 103});
         tmp2.push({status: 104});
         tmp2.push({status: 105});
+        tmp2.push({status: 50});
+        tmp2.push({status: 106});
         tmp1.push({$or: tmp2});
     }
     if (req.body.start == undefined && req.body.end == undefined && req.body.start_sold == undefined && req.body.end_sold == undefined) {
@@ -338,7 +382,8 @@ exports.getallfind = function (req, res) {
                     status: historybeer[i].status,
                     volume: historybeer[i].volume,
                     return_date: historybeer[i].return_date,
-                    volume_return:historybeer[i].volume_return
+                    volume_return: historybeer[i].volume_return,
+                    group_id: historybeer[i].group_id
                 });
             }
 
@@ -346,137 +391,26 @@ exports.getallfind = function (req, res) {
             respone.res_success(200, 'success', false, historyList, res);
         }
     });
-    // if (req.body.start == undefined && req.body.end == undefined && req.body.start_sold == undefined && req.body.end_sold == undefined) {
-    //     if (tmp1.length == 0) {
-    //         tmp1.push({getall: null});
-    //     }
-    //     History.find({$and: tmp1}).sort({"time_boil": -1}).exec(function (err, historybeer) {
-    //         if (err) {
-    //             console.log(err);
-    //             respone.res_error(400, 'system err1', true, res);
-    //
-    //         } else {
-    //             for (var i = 0; i < historybeer.length; i++) {
-    //                 historyList.push({
-    //                     id: historybeer[i]._id,
-    //                     idbeer: historybeer[i].idbeer,
-    //                     time_boil: historybeer[i].time_boil,
-    //                     create_date: historybeer[i].create_date,
-    //                     sell_time: historybeer[i].sell_time,
-    //                     status: historybeer[i].status,
-    //                     volume: historybeer[i].volume
-    //                 });
-    //             }
-    //
-    //             console.log("list : " + JSON.stringify(historyList));
-    //             respone.res_success(200, 'success', false, historyList, res);
-    //         }
-    //     });
-    // } else if (req.body.start_sold != undefined && req.body.end_sold != undefined) {
-    //     var end_sold = new Date(req.body.end_sold);
-    //     var start_sold = new Date(req.body.start_sold);
-    //     History.find({
-    //         $and: tmp1,
-    //         sell_time: {$gte: start_sold, $lte: end_sold}
-    //     }).sort({"sell_time": -1}).exec(function (err, historybeer) {
-    //         if (err) {
-    //             respone.res_error(400, 'system err', true, res);
-    //
-    //         } else {
-    //             console.log("list: " + historybeer)
-    //             for (var i = 0; i < historybeer.length; i++) {
-    //                 historyList.push({
-    //                     id: historybeer[i]._id,
-    //                     idbeer: historybeer[i].idbeer,
-    //                     time_boil: historybeer[i].time_boil,
-    //                     create_date: historybeer[i].create_date,
-    //                     sell_time: historybeer[i].sell_time,
-    //                     status: historybeer[i].status,
-    //                     volume: historybeer[i].volume
-    //                 });
-    //             }
-    //
-    //             respone.res_success(200, 'success', false, historyList, res);
-    //         }
-    //     });
-    // } else {
-    //     if (req.body.start != undefined && req.body.end == undefined) {
-    //
-    //         var startdate = new Date(req.body.start);
-    //         History.find({
-    //             $and: tmp1,
-    //             time_boil: {$gt: startdate}
-    //         }).sort({"time_boil": -1}).exec(function (err, historybeer) {
-    //             if (err) {
-    //                 respone.res_error(400, 'system err', true, res);
-    //
-    //             } else {
-    //                 for (var i = 0; i < historybeer.length; i++) {
-    //                     historyList.push({
-    //                         id: historybeer[i]._id,
-    //                         idbeer: historybeer[i].idbeer,
-    //                         time_boil: historybeer[i].time_boil,
-    //                         create_date: historybeer[i].create_date,
-    //                         sell_time: historybeer[i].sell_time,
-    //                         status: historybeer[i].status,
-    //                         volume: historybeer[i].volume
-    //                     });
-    //                 }
-    //
-    //                 respone.res_success(200, 'success', false, historyList, res);
-    //             }
-    //         });
-    //     } else if (req.body.start == undefined && req.body.end != undefined) {
-    //         var enddate = new Date(req.body.end);
-    //         History.find({
-    //             $and: tmp1,
-    //             time_boil: {$lte: enddate}
-    //         }).sort({"time_boil": -1}).exec(function (err, historybeer) {
-    //             if (err) {
-    //                 respone.res_error(400, 'system err', true, res);
-    //             } else {
-    //                 for (var i = 0; i < historybeer.length; i++) {
-    //                     historyList.push({
-    //                         id: historybeer[i]._id,
-    //                         idbeer: historybeer[i].idbeer,
-    //                         time_boil: historybeer[i].time_boil,
-    //                         create_date: historybeer[i].create_date,
-    //                         sell_time: historybeer[i].sell_time,
-    //                         status: historybeer[i].status,
-    //                         volume: historybeer[i].volume
-    //                     });
-    //                 }
-    //
-    //                 console.log("list : " + JSON.stringify(historyList));
-    //                 respone.res_success(200, 'success', false, historyList, res);
-    //             }
-    //         });
-    //     } else {
-    //         var enddate = new Date(req.body.end);
-    //         var startdate = new Date(req.body.start);
-    //         History.find({
-    //             $and: tmp1,
-    //             time_boil: {$gte: startdate, $lte: enddate}
-    //         }).sort({"time_boil": -1}).exec(function (err, historybeer) {
-    //             if (err) {
-    //                 respone.res_error(400, 'system err', true, res);
-    //
-    //             } else {
-    //                 for (var i = 0; i < historybeer.length; i++) {
-    //                     historyList.push({
-    //                         id: historybeer[i]._id,
-    //                         idbeer: historybeer[i].idbeer,
-    //                         time_boil: historybeer[i].time_boil,
-    //                         create_date: historybeer[i].create_date,
-    //                         sell_time: historybeer[i].sell_time,
-    //                         status: historybeer[i].status,
-    //                         volume: historybeer[i].volume
-    //                     });
-    //                 }
-    //                 respone.res_success(200, 'success', false, historyList, res);
-    //             }
-    //         });
-    //     }
-    // }
+};
 
-}
+exports.updatelocal = function (req, res) {
+    History.find({group_id: undefined}).exec(function (err, arraybeer) {
+        if (err) {
+            respone.res_error(401, "sys err", true, res);
+
+        } else if (!arraybeer) {
+            respone.res_success(300, "list = null", false, res);
+
+        } else {
+            for (var i = 0; i < arraybeer.length; i++) {
+                arraybeer[i].group_id = 1;
+                arraybeer[i].save();
+
+            }
+
+            respone.res_succes_no_result(200, "success", false, res);
+        }
+
+    });
+
+};

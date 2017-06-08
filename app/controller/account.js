@@ -34,7 +34,8 @@ exports.login = function (req, res) {
         } else {
             var tmp=({
                 pemission: acc.role,
-                access_token: acc.access_token
+                access_token: acc.access_token,
+                group_id:acc.group_id
             });
             respone.res_success(200,'success',false,tmp,res);
 

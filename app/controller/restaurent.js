@@ -9,7 +9,15 @@ var UUID = require('node-uuid');
 var respone = require('../helpper/respones');
 var async = require('async');
 exports.getAllRestaurent = function (req, res) {
-    Restaurent.find().sort({'id_res': 1}).exec(function (err, accs) {
+    if(!req.body.group_id){
+        respone.res_error(400, 'one or more parameters is missing', true, res);
+    }else{
+    var tmp1=[], tmp2=[];
+    tmp2.push({group_id: 0});
+    tmp2.push({group_id: req.body.group_id});
+    tmp1.push({$or: tmp2});
+
+    Restaurent.find({$and:tmp1}).sort({'id_res': 1}).exec(function (err, accs) {
         console.log("" + err + "+++++" + accs);
         if (err) {
             respone.res_error(400, 'system err', true, res);
@@ -31,6 +39,8 @@ exports.getAllRestaurent = function (req, res) {
             respone.res_success(200, 'success', false, result, res);
         }
     });
+
+    }
 }
 
 exports.changeIdRestaurent = function (req, res) {

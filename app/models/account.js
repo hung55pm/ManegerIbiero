@@ -19,6 +19,7 @@ var accountSchema = new Schema({
     address: String,
     phone: String,
     access_token: String,
+    group_id:[{type:Number}]
 
 });
 
