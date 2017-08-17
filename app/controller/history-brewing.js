@@ -351,12 +351,12 @@ exports.getallfind = function (req, res) {
         if (req.body.start != undefined && req.body.end == undefined) {
             var startdate = new Date(req.body.start);
             compar = {$gt: startdate};
-            tmp1.push({sell_time: compar});
+            tmp1.push({time_boil: compar});
             console.log("3");
         } else if (req.body.start == undefined && req.body.end != undefined) {
             var enddate = new Date(req.body.end);
             compar = {$lte: enddate};
-            tmp1.push({sell_time: compar});
+            tmp1.push({time_boil: compar});
             console.log("4");
         } else {
             var enddate = new Date(req.body.end);

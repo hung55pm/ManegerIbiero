@@ -111,7 +111,7 @@ exports.checklistbeer = function (done) {
                         var params = {
                             //Odoo only accept GMT date/time. So we must subtract 7hours from current time,
                             //and subtract 1 days for searching yesterday records
-                            domain: [['state', 'in', ['1', '2']], ['account_id.phone', 'in', ['0985688699', '0918272810']],'|', ['brew_date', '>', moment().subtract(24, "hours").format()],['completed_date', '>', moment().subtract(24, "hours").format()]],
+                            domain: [['state', 'in', ['1', '2']], ['account_id.phone', 'in', ['0985688699', '0918272810']],'|', ['brew_date', '>', moment().subtract(31, "hours").format()],['completed_date', '>', moment().subtract(31, "hours").format()]],
                             limit: 100,
                             fields: ['package_id', 'brew_date', 'completed_date', 'formula_id', 'ptuid', 'account_id'],
                             offset: 0
