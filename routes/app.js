@@ -7,6 +7,7 @@ var Acount= require('../app/controller/account');
 var Groups= require('../app/controller/groups');
 var Machine= require('../app/controller/machines');
 var OrderBeer= require('../app/controller/order_beer');
+var Store=require('../app/controller/store');
 var mAccount = require('../app/models/account');
 var Report= require('../app/controller/report');
 var SyncContact=require('../app/controller/syncContact');
@@ -80,4 +81,9 @@ router.post('/addmachine',isValidToken,Machine.addmachine)
 router.post('/change-status',isValidToken,restaurent.changeIdRestaurent);
 router.post('/update-group',isValidToken,historybrewing.updatelocal);
 
+
+
+//api store
+router.post('/find-store',Store.findStore);
+router.post('/add-newstore',Store.addstore);
 module.exports = router;
