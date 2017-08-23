@@ -38,16 +38,16 @@ exports.addstore=function (req,res) {
 exports.findStore=function (req,res) {
     var tmp2=[];
     if(req.body.street!=null && req.body.street!=undefined && req.body.street!=""){
-        tmp2.push({adress_store_lv1_xpd:req.body.street});
+        tmp2.push({adress_store_lv1_xpd:{ $regex:req.body.street, $options: "i" }});
     }
     if(req.body.distric!=null && req.body.distric!=undefined && req.body.distric!=""){
-        tmp2.push({adress_store_lv2_qh:req.body.distric});
+        tmp2.push({adress_store_lv2_qh:{ $regex:req.body.distric, $options: "i" }});
     }
     if(req.body.city!=null && req.body.city!=undefined && req.body.city!=""){
-        tmp2.push({adress_store_lv3_tp:req.body.city});
+        tmp2.push({adress_store_lv3_tp:{ $regex:req.body.city, $options: "i" }});
     }
     if(req.body.country!=null && req.body.country!=undefined && req.body.country!=""){
-        tmp2.push({country_store:req.body.country});
+        tmp2.push({country_store:{ $regex:req.body.country, $options: "i" }});
     }
     if(tmp2.length==0){
         tmp2.push({getall: null});
